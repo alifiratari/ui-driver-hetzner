@@ -90,11 +90,35 @@
       <div class="col-md-2">
         <div class="checkbox">
           <label class="acc-label">{{input type="checkbox" checked=model.hetznerConfig.usePrivateNetwork}}
-            Use private network (first private network which is attached will be used for communication)
+            Use private network (first1 private network which is attached will be used for communication)
           </label>
         </div>
       </div>
     </div>
+    <div class="over-hr r-mt20 r-mb20">
+      <span>SSH Connection Configuration(Require espesically snapshot images)</span>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class="form-control-static">SSH User</label>
+      </div>
+      <div class="col span-6">
+          <label class="acc-label">Packet Filter</label>
+          {{input type="text" value=model.hetznerConfig.sshUser class="form-control" }}
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class="form-control-static">SSH Port</label>
+      </div>
+      <div class="col-md-10">
+        <div class="input-group">
+            {{input-integer min=1 max=65535 value=model.hetznerConfig.sshPort classNames="form-control"}}
+        </div>
+        <div class="input-group-addon bg-default"></div>
+      </div>
+    </div>
+
      {{!-- This following contains the Name, Labels and Engine Options fields --}}
      {{form-name-description model=model nameRequired=true}}
      {{form-user-labels initialLabels=labelResource.labels setLabels=(action 'setLabels') expandAll=expandAll expand=(action expandFn) }}

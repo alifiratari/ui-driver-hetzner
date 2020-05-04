@@ -8,7 +8,7 @@ deploy:
   provider: gcs
   access_key_id: $GCS_ACCESS_KEY_ID
   secret_access_key: $GCS_SECRET_ACCESS_KEY
-  bucket: "hcloud-rancher-v2-ui-driver"
+  bucket: "ui-driver-hetzner-rancher"
   acl: public-read
   skip_cleanup: true
   local-dir: dist

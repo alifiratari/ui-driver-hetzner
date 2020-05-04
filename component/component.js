@@ -50,6 +50,8 @@ export default Ember.Component.extend(NodeDriver, {
       serverLocation: 'nbg1', // Nuremberg
       imageId: "168855", // ubuntu-18.04
       userData: '',
+      sshUser: "root",
+      sshPort: "22",
       networks: [],
       usePrivateNetwork: false
     });
