@@ -99,20 +99,25 @@
       <span>SSH Connection Configuration(Require espesically snapshot images)</span>
     </div>
     <div class="row form-group">
-      <div class="col-md-2">
-        <label class="form-control-static">SSH User</label>
+
+      <div class="col-md-4">
+        <label class="form-control-static">SSH Keys (Beta, optional. You have to user in the <a href="https://console.hetzner.cloud" target="_blank" rel="noopener noreferrer">Hetzner Cloud Console</a>)</label>
+
+        <select class="form-control" onchange={{action 'modifySSHKeys' }} multiple="true">
+          {{#each ssh_keyChoices as |ssh_key|}}
+          <option value={{ssh_key.id}} selected={{array-includes model.hetznerConfig.ssh_keys ssh_key.id}}>{{ssh_key.name}} ({{ssh_key.fingerprint}})</option>
+          {{/each}}
+        </select>
       </div>
       <div class="col span-6">
-          <label class="acc-label">Packet Filter</label>
+          <label class="acc-label">SSH User</label>
           {{input type="text" value=model.hetznerConfig.sshUser class="form-control" }}
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-md-2">
-        <label class="form-control-static">SSH Port</label>
-      </div>
       <div class="col-md-10">
         <div class="input-group">
+            <label class="acc-label">SSH Port</label>
             {{input-integer min=1 max=65535 value=model.hetznerConfig.sshPort classNames="form-control"}}
         </div>
         <div class="input-group-addon bg-default"></div>

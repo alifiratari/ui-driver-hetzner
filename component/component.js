@@ -52,6 +52,7 @@ export default Ember.Component.extend(NodeDriver, {
       userData: '',
       sshUser: "root",
       sshPort: "22",
+      ssh_keys: [],
       networks: [],
       usePrivateNetwork: false
     });
@@ -66,6 +67,9 @@ export default Ember.Component.extend(NodeDriver, {
 
     if (!this.get('model.%%DRIVERNAME%%Config.networks')) {
       this.set('model.%%DRIVERNAME%%Config.networks', [])
+    }
+    if (!this.get('model.%%DRIVERNAME%%Config.ssh_keys')) {
+      this.set('model.%%DRIVERNAME%%Config.ssh_keys', [])
     }
 
     var errors = get(this, 'errors') || [];
@@ -87,7 +91,7 @@ export default Ember.Component.extend(NodeDriver, {
     getData() {
       this.set('gettingData', true);
       let that = this;
-      Promise.all([this.apiRequest('/v1/locations'), this.apiRequest('/v1/images'), this.apiRequest('/v1/server_types'), this.apiRequest('/v1/networks')]).then(function (responses) {
+      Promise.all([this.apiRequest('/v1/locations'), this.apiRequest('/v1/images'), this.apiRequest('/v1/server_types'), this.apiRequest('/v1/networks'), this.apiRequest('/v1/ssh_keys') ]).then(function (responses) {
         that.setProperties({
           errors: [],
           needAPIToken: false,
@@ -102,6 +106,10 @@ export default Ember.Component.extend(NodeDriver, {
           networkChoices: responses[3].networks.map(network => ({
             ...network,
             id: network.id.toString()
+          })),
+          ssh_keyChoices: responses[4].ssh_keys.map(ssh_key => ({
+            ...ssh_key,
+            id: ssh_key.id.toString()
           }))
         });
       }).catch(function (err) {
@@ -116,6 +124,10 @@ export default Ember.Component.extend(NodeDriver, {
     modifyNetworks: function (select) {
       let options = [...select.target.options].filter(o => o.selected).map(o => o.value)
       this.set('model.%%DRIVERNAME%%Config.networks', options);
+    },
+    modifySSHKeys: function (select) {
+      let options = [...select.target.options].filter(o => o.selected).map(o => o.value)
+      this.set('model.%%DRIVERNAME%%Config.ssh_keys', options);
     },
   },
   apiRequest(path) {
